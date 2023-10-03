@@ -8,6 +8,8 @@ TagManager:
   - Ground
   - Victory
   - Coin
+  - GameManager
+  - AudioManager
   layers:
   - Default
   - TransparentFX

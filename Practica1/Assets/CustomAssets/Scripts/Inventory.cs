@@ -5,10 +5,9 @@ using UnityEngine;
 public class Inventory : MonoBehaviour
 {
     [SerializeField] private CoinPurse _coinPurse;
-    [SerializeField] private CoinsUpdater _coinsUpdater;
 
     // Start is called before the first frame update
-    void Start()
+    /*void Start()
     {
         
     }
@@ -18,11 +17,11 @@ public class Inventory : MonoBehaviour
     {
         
     }*/
-
+    
     public void AddCoin()
     {
         _coinPurse.NumberOfCoins++;
-        _coinsUpdater.UpdateNumberOfCoins();
+        GameManager.Instance.UpdateNumberOfCoins();
     }
 
     public int GetNumberOfCoins() 
@@ -30,7 +29,7 @@ public class Inventory : MonoBehaviour
         return _coinPurse.NumberOfCoins;
     }
 
-    private void OnDisable()
+    public void OnDisable()
     {
         _coinPurse.NumberOfCoins = 0;
     }

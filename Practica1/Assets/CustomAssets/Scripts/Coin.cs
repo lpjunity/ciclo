@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Coin : MonoBehaviour
 {
-    [SerializeField] private AudioClip _takeCoin;
+    [SerializeField] private AudioClip _coinTaken;
 
-    /*private void Start()
+    // Start is called before the first frame update
+    /*void Start()
     {
-        
 
     }*/
 
@@ -16,11 +16,12 @@ public class Coin : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            AudioManager.Instance.PlayEffect(_takeCoin);
+            AudioManager.Instance.PlayEffect(_coinTaken);
             Inventory playerInventory  = collision.gameObject.GetComponent<Inventory>();
-            playerInventory.AddCoin();
+            playerInventory.AddCoin();   
             Destroy(gameObject);
         }
+
     }
 
 }
