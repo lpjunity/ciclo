@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         _seconds -= Time.deltaTime;
-        _timerText.text = _seconds.ToString();
+        _timerText.text = ((int)_seconds).ToString();
         if (_seconds < 0 && !_defeated)
         {
             HandleDefeat();

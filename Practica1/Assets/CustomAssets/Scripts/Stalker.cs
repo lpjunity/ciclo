@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AIMovement : MonoBehaviour
+public class Stalker : MonoBehaviour
 {
-    public IMove _movementStrat;
+    [SerializeField] private RangeDetection _followRange;
 
     // Start is called before the first frame update
     void Start()
@@ -15,6 +15,9 @@ public class AIMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //_movementStrat.Move();
+        if (_followRange.InRange)
+        {
+
+        }
     }
 }

@@ -6,7 +6,6 @@ public class FollowTransform : MonoBehaviour
 {
     [SerializeField] private Transform _followTarget;
 
-
     // Update is called once per frame
     void Update()
     {
