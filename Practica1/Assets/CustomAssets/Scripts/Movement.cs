@@ -8,12 +8,12 @@ public class Movement : MonoBehaviour
     private bool _isBlocked = false;
 
     private Rigidbody2D _rb;
-    private SpriteRenderer _spriteRenderer;
+    private SpriteRenderer _sprite;
 
     private void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
-        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _sprite = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -26,8 +26,13 @@ public class Movement : MonoBehaviour
 
         Vector2 force = new Vector2(xInput * _movementSpeed * Time.deltaTime, yInput * _movementSpeed * Time.deltaTime);
 
-        //transform.Translate(xInput * _movementSpeed * Time.deltaTime, yInput * _movementSpeed * Time.deltaTime, 0);
+        if (_sprite)
+        {
+            _sprite.flipX = force.x < 0;
+        }
+        Debug.Log($"Force applied: {force}");
         _rb.AddForce(force, ForceMode2D.Force);
+
     }
 
     public void BlockMovement(float seconds = 2f)
@@ -39,6 +44,6 @@ public class Movement : MonoBehaviour
     private void AllowMovement()
     {
         _isBlocked = false;
-        _spriteRenderer.color = Color.white;
+        _sprite.color = Color.white;
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -14,8 +15,9 @@ public class GameManager : MonoBehaviour
 
     //Defeat panels
     [SerializeField] private GameObject _defeatPanel;
-    [SerializeField] private TextMeshProUGUI _defeat;
-    
+    [SerializeField] private TextMeshProUGUI _defeatByTime;
+    [SerializeField] private TextMeshProUGUI _defeatByEnemy;
+
     //Victory panels
     [SerializeField] private GameObject _victoryPanel;
     [SerializeField] private TextMeshProUGUI _completeVictory;
@@ -26,8 +28,9 @@ public class GameManager : MonoBehaviour
     private int _coinsInLevel;
     [SerializeField] private TextMeshProUGUI _numberOfCoins;
     //We could always search this one, but...
-    [SerializeField] private CoinPurse _playerCoinPurse;
 
+    [SerializeField] private CoinPurse _playerCoinPurse;
+    private GameObject _player;
 
     //Victory/Defeat states
     private bool _defeated;
@@ -48,6 +51,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _player = GameObject.FindGameObjectWithTag("Player");
         FindNumberOfCoinsInLevel();
         UpdateNumberOfCoins();
     }
@@ -76,7 +80,15 @@ public class GameManager : MonoBehaviour
 
     public void HandleDefeat()
     {
-        Instantiate(_defeat, _defeatPanel.transform);
+        
+        if (_player.activeSelf)
+        {
+            Instantiate(_defeatByTime, _defeatPanel.transform);
+        }
+        else
+        {
+            Instantiate(_defeatByEnemy, _defeatPanel.transform);
+        }
         Time.timeScale = 0;
         _defeatPanel.SetActive(true);
         _defeated = true;
@@ -85,8 +97,7 @@ public class GameManager : MonoBehaviour
 
     public void HandleVictory()
     {
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        Inventory playerInventory = player.GetComponent<Inventory>();
+        Inventory playerInventory = _player?.GetComponent<Inventory>();
 
         if (playerInventory.GetNumberOfCoins() == _coinsInLevel)
         {

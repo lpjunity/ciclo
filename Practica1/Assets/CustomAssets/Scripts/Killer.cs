@@ -11,6 +11,7 @@ public class Killer : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             AudioManager.Instance.PlayEffect(_killSound);
+            collision.gameObject.SetActive(false);
             Destroy(collision.gameObject);
             GameManager.Instance.HandleDefeat();
         }
