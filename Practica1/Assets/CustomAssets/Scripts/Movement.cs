@@ -19,7 +19,10 @@ public class Movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_isBlocked) return;
+        if (_isBlocked) { 
+            _rb.velocity = new Vector2(0, 0); 
+            return; 
+        }
 
         float xInput = Input.GetAxis("Horizontal");
         float yInput = Input.GetAxis("Vertical");
