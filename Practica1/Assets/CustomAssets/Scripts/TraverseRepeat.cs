@@ -10,7 +10,7 @@ public class TraverseRepeat : MonoBehaviour
     private Rigidbody2D _rb;
     private Vector3 _positionLerped;
 
-    private float _journeyTime = 1f;
+    [SerializeField] private float _journeyTime;
     private float _timePassed;
     private float _lerpedPercentage;
     private bool _isMovingRight;
@@ -44,7 +44,7 @@ public class TraverseRepeat : MonoBehaviour
 
     private void ChangeDirectionIfReachedEnd()
     {
-        if (_lerpedPercentage >= 1f)
+        if (_lerpedPercentage >= _journeyTime)
         {
             _isMovingRight = !_isMovingRight;
             _timePassed = 0;
