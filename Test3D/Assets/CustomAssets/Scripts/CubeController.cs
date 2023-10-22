@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,87 +5,72 @@ using UnityEngine;
 public class CubeController : MonoBehaviour
 {
     private Rigidbody _rb;
-    [SerializeField] private float _movementSpeed;
-    [SerializeField] private float _jumpForce;
+    [SerializeField] private float _fwdForce;
+    [SerializeField] private float _rotationCoef;
 
+    [SerializeField] private float _jumpForce;
     private bool _isGrounded = true;
     private bool _wantsToJump;
-    private float posX, posZ;
 
-    [SerializeField] private float _rotationSpeed;
+    private float _inputX;
+    private float _inputZ;
+    private Quaternion _targetRotation;
+
+    private void Awake()
+    {
+        _rb = GetComponent<Rigidbody>();
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        _rb = GetComponent<Rigidbody>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        posX = Input.GetAxis("Horizontal");
-        posZ = Input.GetAxis("Vertical");
+        _inputX = Input.GetAxis("Horizontal");
+        _inputZ = Input.GetAxis("Vertical");
 
-        if(_isGrounded && Input.GetKeyDown(KeyCode.Space))
+        _targetRotation = transform.rotation;
+
+        if (_inputX > 0)
+        {
+            _targetRotation = Quaternion.LookRotation(transform.right);
+        }
+        else if (_inputX < 0)
+        {
+            _targetRotation = Quaternion.LookRotation(transform.right * -1);
+        }
+        else if (_inputZ < 0)
+        {
+            _targetRotation = Quaternion.LookRotation(transform.right * -1);
+        }
+        else if (_inputZ > 0)
+        {
+            _targetRotation = Quaternion.LookRotation(transform.forward);
+        }
+
+        _targetRotation = Quaternion.Slerp(_rb.rotation, _targetRotation, Time.deltaTime * _rotationCoef);
+
+        if (_isGrounded && Input.GetKeyDown(KeyCode.Space))
         {
             _wantsToJump = true;
         }
-        
     }
 
     private void FixedUpdate()
     {
-        RotateBody();
+        Vector3 force = transform.forward * _inputZ * _fwdForce;
+        Debug.Log($"Force applied: {force}");
 
-        MoveBody();
-
-    }
-
-    private void RotateBody()
-    {
-        Quaternion targetRotation = transform.rotation;
-        if (posX > 0)
+        if (_inputZ > 0)
         {
-            targetRotation = Quaternion.LookRotation(Vector3.right);
-        }
-        else if (posX < 0)
-        {
-            targetRotation = Quaternion.LookRotation(Vector3.left);
-        }
-        else if (posZ < 0)
-        {
-            targetRotation = Quaternion.LookRotation(Vector3.back);
-        }
-        else
-        {
-            targetRotation = Quaternion.LookRotation(Vector3.forward);
+            _rb.AddForce(force, ForceMode.Force);
         }
 
-        transform.rotation = Quaternion.Slerp(_rb.rotation, targetRotation, _rotationSpeed * Time.fixedDeltaTime);
-    }
-
-    private void MoveBody()
-    {
-        float fwdSpeed = posZ * _movementSpeed * Time.fixedDeltaTime;
-
-        Vector3 velocity = new Vector3(_rb.velocity.x, _rb.velocity.y, _rb.velocity.z);
-
-        if (Mathf.Abs(transform.forward.x) > 0)
-        {
-            //Moving left or right
-            velocity = new Vector3(fwdSpeed, _rb.velocity.y, _rb.velocity.z);
-            Debug.Log($"Moving left or right: {velocity}");
-        }
-        else if(Mathf.Abs(transform.forward.z) > 0){
-            //Moving forward or backwards
-            velocity = new Vector3(_rb.velocity.x, _rb.velocity.y, fwdSpeed);
-            Debug.Log($"Moving fwd or backwards: {velocity}");
-        }
-
-        _rb.velocity = velocity;
-
-        Debug.Log(transform.forward * fwdSpeed);
-        Debug.Log(velocity);
+        _rb.MoveRotation(_targetRotation.normalized);
 
         if (_wantsToJump)
         {
