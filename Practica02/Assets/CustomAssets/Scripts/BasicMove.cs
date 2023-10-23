@@ -16,9 +16,13 @@ public class BasicMove : MonoBehaviour
     private float _inputZ;
     private Quaternion _targetRotation;
 
+    private Animator _animator;
+    private static int _walkingID = Animator.StringToHash("wantsToWalk");
+
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
+        _animator = GetComponent<Animator>();
     }
 
     // Start is called before the first frame update
@@ -65,6 +69,11 @@ public class BasicMove : MonoBehaviour
         {
             Debug.Log($"Force applied: {force}");
             _rb.AddForce(force, ForceMode.Force);
+            _animator.SetBool(_walkingID, true);
+        }
+        else
+        {
+            _animator.SetBool(_walkingID, false);
         }
 
         _rb.MoveRotation(_targetRotation.normalized);

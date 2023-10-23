@@ -51,6 +51,8 @@ public class GameManager : MonoBehaviour
         _player = GameObject.FindGameObjectWithTag("Player");
         _mainCamera = Camera.main;
         _cameraScript = _mainCamera.GetComponent<PositionChange>();
+        _victory.text = "";
+        _defeat.text = "";
         FindNumberOfCoinsInLevel();
         UpdateNumberOfCoins();
     }
@@ -63,7 +65,10 @@ public class GameManager : MonoBehaviour
         _timerText.text = ((int)_seconds).ToString();
 
         ChangeCameraMode();
-        CheckVictory();
+        if(!_defeated) {
+            CheckVictory();
+        }
+        
     }
 
     public void FindNumberOfCoinsInLevel()
@@ -79,6 +84,7 @@ public class GameManager : MonoBehaviour
     public void HandleDefeat()
     {
         Instantiate(_defeat, _defeatPanel.transform);
+        _defeat.text = "Defeat";
         Time.timeScale = 0;
         _defeatPanel.SetActive(true);
         _defeated = true;
@@ -90,7 +96,7 @@ public class GameManager : MonoBehaviour
         if (_playerCoinPurse.NumberOfItems == _coinsInLevel)
         {
             Instantiate(_victory, _victoryPanel.transform);
-            _victory.text = "Congrats! You have spent " + _seconds;
+            _victory.text = "Congrats! You have spent: " + _timerText.text;
             Time.timeScale = 0;
             _victoryPanel.SetActive(true);
         }
