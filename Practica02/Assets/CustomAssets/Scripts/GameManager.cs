@@ -83,8 +83,8 @@ public class GameManager : MonoBehaviour
 
     public void HandleDefeat()
     {
-        Instantiate(_defeat, _defeatPanel.transform);
         _defeat.text = "Defeat";
+        Instantiate(_defeat, _defeatPanel.transform);
         Time.timeScale = 0;
         _defeatPanel.SetActive(true);
         _defeated = true;
@@ -95,8 +95,8 @@ public class GameManager : MonoBehaviour
     {
         if (_playerCoinPurse.NumberOfItems == _coinsInLevel)
         {
-            Instantiate(_victory, _victoryPanel.transform);
             _victory.text = "Congrats! You have spent: " + _timerText.text;
+            Instantiate(_victory, _victoryPanel.transform);
             Time.timeScale = 0;
             _victoryPanel.SetActive(true);
         }
