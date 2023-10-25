@@ -28,10 +28,20 @@ public class ForwardMoveAndDestroy : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Coin"))
+        if (collision.gameObject.CompareTag("Enemy"))
         {
             Destroy(collision.gameObject, .1f);
         }
         Destroy(gameObject, .1f);
     }
+
+    private void OnTriggerEnter(Collider collider)
+    {
+        if (collider.CompareTag("Coin"))
+        {
+            Destroy(collider.gameObject, .1f);
+        }
+        Destroy(gameObject, .1f);
+    }
+
 }
