@@ -39,6 +39,8 @@ public class BuildController : MonoBehaviour
             if (!buildingInCollision && hit.collider.gameObject.CompareTag("Buildeable"))
             {
                 _buildingPreview.transform.position = hit.point;
+                Debug.Log($"Position: {hit.point}");
+                Debug.Log(hit.collider.name);
                 _isAbleToCreate = true;
             }
 

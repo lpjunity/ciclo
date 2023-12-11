@@ -17,9 +17,4 @@ public class ButtonController : MonoBehaviour
         BaseAnimationController.Instance.EnablePanelScalingY(panelToEnable);
     }
 
-    public void SelectBuilding(GameObject prefab)
-    {
-        
-    }
-
 }
