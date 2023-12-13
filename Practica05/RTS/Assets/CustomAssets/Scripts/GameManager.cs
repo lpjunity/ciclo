@@ -63,6 +63,14 @@ public class GameManager : MonoBehaviour
             _counterController.UpdateTree01Counter(_tree01Counter.ToString());
         }
     }
+    public void AddTree2()
+    {
+        _tree02Counter++;
+        if (_counterController)
+        {
+            _counterController.UpdateTree02Counter(_tree02Counter.ToString());
+        }
+    }
 
     public void AddHouse()
     {
@@ -70,6 +78,15 @@ public class GameManager : MonoBehaviour
         if (_counterController)
         {
             _counterController.UpdateHouse01Counter(_houseCounter.ToString());
+        }
+    }
+
+    public void AddWell()
+    {
+        _wellCounter++;
+        if (_counterController)
+        {
+            _counterController.UpdateWell01Counter(_wellCounter.ToString());
         }
     }
 }

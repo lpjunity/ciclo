@@ -8,6 +8,8 @@ TagManager:
   - House
   - Tree
   - CounterController
+  - Well
+  - Tree2
   layers:
   - Default
   - TransparentFX
