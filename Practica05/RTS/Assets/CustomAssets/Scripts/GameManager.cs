@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -84,6 +85,78 @@ public class GameManager : MonoBehaviour
     public void AddWell()
     {
         _wellCounter++;
+        if (_counterController)
+        {
+            _counterController.UpdateWell01Counter(_wellCounter.ToString());
+        }
+    }
+
+    public void RemoveTree()
+    {
+        _tree01Counter--;
+        if (_counterController)
+        {
+            _counterController.UpdateTree01Counter(_tree01Counter.ToString());
+        }
+    }
+
+    public void RemoveTree2()
+    {
+        _tree02Counter--;
+        if (_counterController)
+        {
+            _counterController.UpdateTree02Counter(_tree02Counter.ToString());
+        }
+    }
+
+    public void RemoveHouse()
+    {
+        _houseCounter--;
+        if (_counterController)
+        {
+            _counterController.UpdateHouse01Counter(_houseCounter.ToString());
+        }
+    }
+
+    public void RemoveWell()
+    {
+        _wellCounter--;
+        if (_counterController)
+        {
+            _counterController.UpdateWell01Counter(_wellCounter.ToString());
+        }
+    }
+
+    public void RemoveAllTrees()
+    {
+        _tree01Counter = 0;
+        if (_counterController)
+        {
+            _counterController.UpdateTree01Counter(_tree01Counter.ToString());
+        }
+    }
+
+    public void RemoveAllTrees2()
+    {
+        _tree02Counter = 0;
+        if (_counterController)
+        {
+            _counterController.UpdateTree02Counter(_tree02Counter.ToString());
+        }
+    }
+
+    public void RemoveAllHouses()
+    {
+        _houseCounter = 0;
+        if (_counterController)
+        {
+            _counterController.UpdateHouse01Counter(_houseCounter.ToString());
+        }
+    }
+
+    public void RemoveAllWells()
+    {
+        _wellCounter = 0 ;
         if (_counterController)
         {
             _counterController.UpdateWell01Counter(_wellCounter.ToString());
