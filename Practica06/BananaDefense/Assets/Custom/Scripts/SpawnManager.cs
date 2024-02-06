@@ -51,7 +51,7 @@ public class SpawnManager : MonoBehaviour
                 Following follow = enemy.GetComponent<Following>();
                 if (follow)
                 {
-                    follow.Init(_prize);
+                    follow.Init(_prize, _startSpawnPosition);
                 }
                 _numberOfMonstersSpawn++;
                 _timePassed = 0;

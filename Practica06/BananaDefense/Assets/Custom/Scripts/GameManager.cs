@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -11,6 +12,19 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject _bananaPrefab;
 
     [SerializeField] private Transform[] _spawnPositions;
+
+    private List<GameObject> _strawberriesOnMap;
+
+    private GameObject _prize;
+
+    //public static event Action<GameObject> OnStrawberryAdded;
+
+    //public static event Action<GameObject> OnStrawberryConsumed;
+
+    public static event Action<List<GameObject>> OnStrawberryOnMap;
+
+    public static event Action<GameObject> OnStrawberryShortage;
+
 
     private void Awake()
     {
@@ -27,7 +41,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        _strawberriesOnMap = new List<GameObject>();
     }
 
     // Update is called once per frame
@@ -36,12 +50,19 @@ public class GameManager : MonoBehaviour
         
     }
 
-    public void TakePrize(GameObject prizeTaken)
+    /*public void TakePrize(GameObject prizeTaken)
     {
-        RemoveBanana();
+        if (prizeTaken.CompareTag("Prize"))
+        {
+            RemoveBanana();
+            Destroy(prizeTaken);
+        }
+        else
+        {
+            
+        }
         
-        Destroy(prizeTaken);
-    }
+    }*/
 
     private void RemoveBanana()
     {
@@ -63,6 +84,32 @@ public class GameManager : MonoBehaviour
         GameObject banana = Instantiate(_bananaPrefab, _spawnPositions[positionIndex]);
 
 
+    }
+
+    public void AddStrawberry(GameObject strawberry)
+    {
+        _strawberriesOnMap.Add(strawberry);
+        OnStrawberryOnMap?.Invoke(_strawberriesOnMap);
+    }
+
+    public void RemoveStrawberry(GameObject strawberry, GameObject monkey)
+    {
+        _strawberriesOnMap.Remove(strawberry);
+        Destroy(strawberry);
+        monkey.GetComponent<Following>().Leave();
+        if(_strawberriesOnMap.Count > 0)
+        {
+            OnStrawberryOnMap?.Invoke(_strawberriesOnMap);
+        }
+        else
+        {
+            OnStrawberryShortage?.Invoke(FindPrizeOnMap());
+        }
+    }
+
+    private GameObject FindPrizeOnMap()
+    {
+        return _prize ? _prize : GameObject.FindGameObjectWithTag("Prize");
     }
 
     private void GameOver()

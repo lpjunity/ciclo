@@ -217,6 +217,9 @@ PrefabInstance:
       addedObject: {fileID: 7681661548989824516}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 5c70a51be40560a47888b4a02e31663a, type: 3}
       insertIndex: -1
+      addedObject: {fileID: -8135321812897516765}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 5c70a51be40560a47888b4a02e31663a, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 3173445727997443480}
   m_SourcePrefab: {fileID: 100100000, guid: 5c70a51be40560a47888b4a02e31663a, type: 3}
 --- !u!1 &6588065457958630347 stripped
@@ -236,7 +239,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82cff6aed7198554f99131562931084e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _leavePosition: {fileID: 0}
   _targetToFollow: {fileID: 0}
+--- !u!65 &-8135321812897516765
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6588065457958630347}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1.4632508, z: 1}
+  m_Center: {x: -0, y: 0.7515196, z: 0}
 --- !u!195 &3173445727997443480
 NavMeshAgent:
   m_ObjectHideFlags: 0
