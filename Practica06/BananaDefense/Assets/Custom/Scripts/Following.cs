@@ -19,25 +19,6 @@ public class Following : MonoBehaviour
         _agent.destination = _targetToFollow.transform.position;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        /*if (_targetToFollow)
-        {
-            _agent.destination = _targetToFollow.transform.position;
-            float distanceToTarget = Vector3.Distance(_agent.transform.position, _targetToFollow.transform.position);
-            if (distanceToTarget <= .5)
-            {
-                GameManager.Instance.TakePrize(_targetToFollow);
-            }
-        }
-        else
-        {
-            _agent.destination = gameObject.transform.position;
-        }*/
-
-    }
-
     public void Init(GameObject target, Transform leaveArea)
     {
         _targetToFollow = target;
@@ -58,11 +39,14 @@ public class Following : MonoBehaviour
         GameObject newTarget = null;
         foreach (GameObject target in possibleTargets)
         {
-            float tmpDistance = Vector3.Distance(transform.position, target.transform.position);
-            if (tmpDistance <= distanceToTarget)
+            if(target != null)
             {
-                distanceToTarget = tmpDistance;
-                newTarget = target;
+                float tmpDistance = Vector3.Distance(transform.position, target.transform.position);
+                if (tmpDistance <= distanceToTarget)
+                {
+                    distanceToTarget = tmpDistance;
+                    newTarget = target;
+                }
             }
         }
 
@@ -72,9 +56,9 @@ public class Following : MonoBehaviour
 
     public void Leave()
     {
-        _targetToFollow = null;
-        _agent.destination = _leavePosition.position;
         GameManager.OnStrawberryOnMap -= ChangeTarget;
         GameManager.OnStrawberryShortage -= ChangeToPrize;
+        _targetToFollow = null;
+        _agent.destination = _leavePosition.position;
     }
 }

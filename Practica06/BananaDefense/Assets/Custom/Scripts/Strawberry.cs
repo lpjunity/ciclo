@@ -25,10 +25,15 @@ public class Strawberry : MonoBehaviour
         {
             OnStrawberryAdded?.Invoke(gameObject);
         }
-
-        if (collision.gameObject.CompareTag("Monkey"))
-        {
-            OnStrawberryConsumed?.Invoke(gameObject, collision.gameObject);
-        }
+        
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Monkey"))
+        {
+            OnStrawberryConsumed?.Invoke(gameObject, other.gameObject);
+        }   
+    }
+
 }

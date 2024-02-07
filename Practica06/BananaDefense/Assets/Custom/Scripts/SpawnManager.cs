@@ -19,7 +19,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private Transform _startSpawnPosition;
     [SerializeField] private Transform _endSpawnPosition;
 
-    private void Awake()
+    void Awake()
     {
         if (Instance != null && Instance != this)
         {

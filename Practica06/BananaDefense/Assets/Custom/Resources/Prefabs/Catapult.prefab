@@ -41,15 +41,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 7756341396bba3645994e0eda203a030, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.1061609
+      value: 12.298506
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7756341396bba3645994e0eda203a030, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.62820435
+      value: -0.56835306
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7756341396bba3645994e0eda203a030, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -6.161375
+      value: 4.986614
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7756341396bba3645994e0eda203a030, type: 3}
       propertyPath: m_LocalRotation.w
@@ -466,11 +466,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 204477a23f4aa5848b64f05be6f78d56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Price: 100
   _strawberryPrefab: {fileID: 712378474483937491, guid: fe8177e90a7f83d4b8910e30279599e0, type: 3}
   _speed: 0
   _shootingTransform: {fileID: 3762316689526146290}
   _launcherRB: {fileID: 4642914999202181681}
   _maxAmmo: 3
+  _coolDowmTimer: 5
 --- !u!1 &8910122628071240354 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -7575576129501856460, guid: 7756341396bba3645994e0eda203a030, type: 3}

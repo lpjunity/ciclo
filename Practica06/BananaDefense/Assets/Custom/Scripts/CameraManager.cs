@@ -5,23 +5,34 @@ using UnityEngine.EventSystems;
 
 public class CameraManager : MonoBehaviour
 {
+    public static CameraManager Instance { get; private set; }
+
     [SerializeField] private float _rayDistance;
     [SerializeField] private GameObject _buildingsParent;
 
-    private GameObject _buildingSelected;
-    private GameObject _buildingPreview;
+    private Building _buildingSelected;
     private BoxCollider _buildingCollider;
     private bool _isAbleToCreate;
-    private bool _wantToBuild;
+    private bool _isAbleToPay;
+    private bool _hasResourcesToBuild;
     private LayerMask _mask;
 
-    [SerializeField] GameObject _test;
+    void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
     {
         _mask = ~(1 << LayerMask.NameToLayer("Ground"));
-        SelectBuilding(_test);
     }
 
     void Update()
@@ -52,53 +63,44 @@ public class CameraManager : MonoBehaviour
 
             if (Input.GetMouseButtonDown(0))
             {
-                _wantToBuild = _isAbleToCreate /*&& !_eventSystem.IsPointerOverGameObject()*/;
-                /*if (!_isAbleToCreate)
+                _isAbleToPay = GameManager.Instance.HasMoneyForBuilding(_buildingSelected.Price);
+                _hasResourcesToBuild = _isAbleToCreate && _isAbleToPay;
+                if (!_isAbleToCreate)
                 {
-                    Invoke("ShowBuildingUnavailableMessage", 2f);
-                }*/
+                    //UIManager.Instance.ShowMessage();
+                }
+                if (!_isAbleToPay)
+                {
+                    UIManager.Instance.ShowNotEnoughMoneyWarning();
+                }
             }
         }
-
     }
 
-    private void FixedUpdate()
+    void FixedUpdate()
     {
-        if (_wantToBuild)
+        if (_hasResourcesToBuild)
         {
             CreateBuilding();
             _isAbleToCreate = false;
-            _wantToBuild = false;
+            _hasResourcesToBuild = false;
         }
     }
 
-    /*private void OnEnable()
+    void OnDisable()
     {
-        GameManager.Instance.ActivateBuildingMode();
-        _eventSystem = EventSystem.current;
-    }*/
-
-    private void OnDisable()
-    {
-        /*_buildingSelected = null;
-        GameManager.Instance.DeactivateModes();*/
-        Destroy(_buildingPreview);
         _buildingCollider = null;
     }
 
-    public void SelectBuilding(GameObject prefab)
+    public void SelectBuilding(Building building)
     {
-        if (_buildingPreview)
-        {
-            Destroy(_buildingPreview);
-        }
-        _buildingSelected = prefab;
-        //_buildingPreview = Instantiate(prefab, _buildingsParent.transform);
+        _buildingSelected = building;
         _buildingCollider = _buildingSelected.GetComponent<BoxCollider>();
     }
 
     private void CreateBuilding()
     {
-        GameObject _buildingSpawn = Instantiate(_buildingSelected, _buildingSelected.transform.position, _buildingSelected.transform.rotation, _buildingsParent.transform);
+        Instantiate(_buildingSelected.gameObject, _buildingSelected.transform.position, _buildingSelected.transform.rotation, _buildingsParent.transform);
+        GameManager.Instance.SpendMoney(_buildingSelected.Price);
     }
 }

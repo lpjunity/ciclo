@@ -1,9 +1,6 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class StrawberrySpawner : MonoBehaviour
+public class Catapult : Building
 {
     [SerializeField] private GameObject _strawberryPrefab;
     [SerializeField] private float _speed;
@@ -18,19 +15,17 @@ public class StrawberrySpawner : MonoBehaviour
     [SerializeField] private int _maxAmmo;
     private int _currentAmmo;
 
+    private bool _isOnCooldown;
+    private float _timer;
+    [SerializeField] private int _coolDowmTimer;
+
     // Start is called before the first frame update
     void Start()
     {
         m_EulerAngleVelocity = new Vector3(360, 0, 0);
         m_EulerAngleVelocityBackwards = new Vector3(-360, 0, 0);
-        LoadStrawberry();
         _currentAmmo = _maxAmmo;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        LoadStrawberry();
     }
 
     private void LoadStrawberry()
@@ -79,13 +74,31 @@ public class StrawberrySpawner : MonoBehaviour
         //Position reset to initial launch
         if (ResetComplete())
         {
+            _isOnCooldown = true;
             LoadStrawberry();
             _launched = false;
         }
     }
 
+    private void Update()
+    {
+        if (_isOnCooldown) { 
+            _timer += Time.deltaTime;
+            if (_timer >= _coolDowmTimer)
+            {
+                _isOnCooldown = false;
+                _timer = 0;
+            }
+        }
+    }
+
     void FixedUpdate()
     {
+        if (_isOnCooldown)
+        {
+            return;
+        }
+
         if (_strawberryLoaded && !_launched)
         {
             Launch();
@@ -93,10 +106,8 @@ public class StrawberrySpawner : MonoBehaviour
         }else
         {
             //Resetting position
-            //Debug.Log("Reseting");
             if (NoAmmo())
             {
-                Debug.Log("No Ammo");
                 Destroy(gameObject);
             }else
             {
