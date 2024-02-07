@@ -23,8 +23,8 @@ public class Following : MonoBehaviour
     {
         _targetToFollow = target;
         _leavePosition = leaveArea;
-        GameManager.OnStrawberryOnMap += ChangeTarget;
-        GameManager.OnStrawberryShortage += ChangeToPrize;
+        GameManager.OnMangoOnMap += ChangeTarget;
+        GameManager.OnMangoShortage += ChangeToPrize;
     }
 
     private void ChangeToPrize(GameObject prize)
@@ -56,8 +56,8 @@ public class Following : MonoBehaviour
 
     public void Leave()
     {
-        GameManager.OnStrawberryOnMap -= ChangeTarget;
-        GameManager.OnStrawberryShortage -= ChangeToPrize;
+        GameManager.OnMangoOnMap -= ChangeTarget;
+        GameManager.OnMangoShortage -= ChangeToPrize;
         _targetToFollow = null;
         _agent.destination = _leavePosition.position;
     }

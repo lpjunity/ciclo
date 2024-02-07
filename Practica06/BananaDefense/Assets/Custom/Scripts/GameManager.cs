@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private Transform[] _spawnPositions;
 
-    public List<GameObject> _strawberriesOnMap;
+    public List<GameObject> _mangosOnMap;
 
     private GameObject _prize;
 
@@ -25,9 +25,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int _monkeySatisfiedPrice;
     [SerializeField] private float _levelTime;
 
-    public static event Action<List<GameObject>> OnStrawberryOnMap;
+    public static event Action<List<GameObject>> OnMangoOnMap;
+    public static event Action<GameObject> OnMangoShortage;
 
-    public static event Action<GameObject> OnStrawberryShortage;
+
 
     void Awake()
     {
@@ -44,7 +45,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _strawberriesOnMap = new List<GameObject>();
+        _mangosOnMap = new List<GameObject>();
         _availableMoney = _initialMoney;
         UIManager.Instance.UpdateMoney(_availableMoney);
         UIManager.Instance.InitializeTime(_levelTime);
@@ -94,31 +95,31 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public void AddStrawberry(GameObject strawberry)
+    public void AddMango(GameObject strawberry)
     {
-        if (_strawberriesOnMap.Contains(strawberry))
+        if (_mangosOnMap.Contains(strawberry))
         {
             return;
         }
-        _strawberriesOnMap.Add(strawberry);
-        OnStrawberryOnMap?.Invoke(_strawberriesOnMap);
+        _mangosOnMap.Add(strawberry);
+        OnMangoOnMap?.Invoke(_mangosOnMap);
     }
 
-    public void RemoveStrawberry(GameObject strawberry, GameObject monkey)
+    public void RemoveMango(GameObject strawberry, GameObject monkey)
     {
         monkey.GetComponent<Following>().Leave();
         _monkeysSatisfied++;
-        _strawberriesOnMap.Remove(strawberry);
+        _mangosOnMap.Remove(strawberry);
         Destroy(strawberry);
         EarnMoney(_monkeySatisfiedPrice);
 
-        if(_strawberriesOnMap.Count > 0)
+        if(_mangosOnMap.Count > 0)
         {
-            OnStrawberryOnMap?.Invoke(_strawberriesOnMap);
+            OnMangoOnMap?.Invoke(_mangosOnMap);
         }
         else
         {
-            OnStrawberryShortage?.Invoke(FindPrizeOnMap());
+            OnMangoShortage?.Invoke(FindPrizeOnMap());
         }
     }
 
@@ -138,6 +139,7 @@ public class GameManager : MonoBehaviour
         }
         
         UIManager.Instance.ShowGameOverMessage(message);
+        Time.timeScale = 0;
     }
 
     public bool HasMoneyForBuilding(int price)

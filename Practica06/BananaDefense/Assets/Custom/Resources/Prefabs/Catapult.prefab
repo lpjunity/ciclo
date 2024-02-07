@@ -24,13 +24,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7971759113949621082}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071067}
+  m_LocalRotation: {x: 0, y: 0, z: 0.4700956, w: 0.88261557}
   m_LocalPosition: {x: 0.00002, y: 0.01567, z: -0.00424}
   m_LocalScale: {x: 0.01, y: 0.010000002, z: 0.010000002}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 669808193094326440}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 56.081}
 --- !u!1001 &7888398856885882774
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -41,15 +41,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 7756341396bba3645994e0eda203a030, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 12.298506
+      value: 7.7258472
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7756341396bba3645994e0eda203a030, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.56835306
+      value: -0.47204584
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7756341396bba3645994e0eda203a030, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 4.986614
+      value: 9.7296505
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7756341396bba3645994e0eda203a030, type: 3}
       propertyPath: m_LocalRotation.w
@@ -467,7 +467,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Price: 100
-  _strawberryPrefab: {fileID: 712378474483937491, guid: fe8177e90a7f83d4b8910e30279599e0, type: 3}
+  _strawberryPrefab: {fileID: 2175790384899041898, guid: 7f82eb3d4c863084fa8d38389a58c49b, type: 3}
   _speed: 0
   _shootingTransform: {fileID: 3762316689526146290}
   _launcherRB: {fileID: 4642914999202181681}
