@@ -48,7 +48,7 @@ public class SpawnManager : MonoBehaviour
                 float spawnPositionX = Random.Range(_startSpawnPosition.position.x, _endSpawnPosition.position.x);
                 GameObject enemyPrefab = _monsterTypes[Random.Range(0, _monsterTypes.Count)];
                 GameObject enemy = Instantiate(enemyPrefab, new Vector3(spawnPositionX, enemyPrefab.transform.position.y, enemyPrefab.transform.position.z), enemyPrefab.transform.rotation);
-                Following follow = enemy.GetComponent<Following>();
+                FollowingBehaviour follow = enemy.GetComponent<FollowingBehaviour>();
                 if (follow)
                 {
                     follow.Init(_prize, _startSpawnPosition);

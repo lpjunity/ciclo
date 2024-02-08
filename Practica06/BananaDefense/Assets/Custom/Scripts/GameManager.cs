@@ -7,10 +7,10 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    [SerializeField] private int _availableBananas;
-    private int _stolenBananas;
+    [SerializeField] private int _availablePrize;
+    private int _stolenPrize;
 
-    [SerializeField] private GameObject _bananaPrefab;
+    [SerializeField] private GameObject _prizePrefab;
 
     [SerializeField] private Transform[] _spawnPositions;
 
@@ -24,11 +24,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int _initialMoney;
     [SerializeField] private int _monkeySatisfiedPrice;
     [SerializeField] private float _levelTime;
+    [SerializeField] private float _prizeSpawnCoolDown;
 
     public static event Action<List<GameObject>> OnMangoOnMap;
     public static event Action<GameObject> OnMangoShortage;
-
-
 
     void Awake()
     {
@@ -40,80 +39,70 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
         }
+        
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        Time.timeScale = 0;
         _mangosOnMap = new List<GameObject>();
+        SpawnPrize();
         _availableMoney = _initialMoney;
         UIManager.Instance.UpdateMoney(_availableMoney);
         UIManager.Instance.InitializeTime(_levelTime);
+        UIManager.Instance.UpdateRemainingPrizes(_availablePrize);
+    }
+
+    public void StartGame()
+    {
+        UIManager.Instance.RemoveMainMenu();
+        Time.timeScale = 1;
+    }
+
+    public void ExitGame()
+    {
+        Application.Quit();
     }
 
     // Update is called once per frame
-    void Update()
+    /*void Update()
     {
         
 
 
-    }
-
-    /*public void TakePrize(GameObject prizeTaken)
-    {
-        if (prizeTaken.CompareTag("Prize"))
-        {
-            RemoveBanana();
-            Destroy(prizeTaken);
-        }
-        else
-        {
-            
-        }
-        
     }*/
 
-    private void RemoveBanana()
-    {
-        _stolenBananas++;
-        //UIManager.Instance.UpdateBananaCounter(AvailableBananas);
-        if(_stolenBananas >= _availableBananas)
-        {
-            GameOver();
-        }
-        else
-        {
-            Invoke("SpawnBanana", 3f);
-        }
-    }
-
-    private void SpawnBanana()
+    private void SpawnPrize()
     {
         int positionIndex = UnityEngine.Random.Range(0, _spawnPositions.Length);
-        GameObject banana = Instantiate(_bananaPrefab, _spawnPositions[positionIndex]);
-
-
+        GameObject banana = Instantiate(_prizePrefab, _spawnPositions[positionIndex].position, Quaternion.identity);
+        _prize = banana;
     }
 
-    public void AddMango(GameObject strawberry)
+    public void AddMango(GameObject mango)
     {
-        if (_mangosOnMap.Contains(strawberry))
+        if (_mangosOnMap.Contains(mango))
         {
             return;
         }
-        _mangosOnMap.Add(strawberry);
+        _mangosOnMap.Add(mango);
         OnMangoOnMap?.Invoke(_mangosOnMap);
     }
 
-    public void RemoveMango(GameObject strawberry, GameObject monkey)
+    public void RemoveMango(GameObject mango, GameObject monkey)
     {
-        monkey.GetComponent<Following>().Leave();
+        monkey.GetComponent<FollowingBehaviour>().Leave();
         _monkeysSatisfied++;
-        _mangosOnMap.Remove(strawberry);
-        Destroy(strawberry);
+        _mangosOnMap.Remove(mango);
+        Destroy(mango);
         EarnMoney(_monkeySatisfiedPrice);
+        NotifyTheMonkeys();
+    }
 
-        if(_mangosOnMap.Count > 0)
+    private void NotifyTheMonkeys()
+    {
+        if (_mangosOnMap.Count > 0)
         {
             OnMangoOnMap?.Invoke(_mangosOnMap);
         }
@@ -132,7 +121,7 @@ public class GameManager : MonoBehaviour
     {
         string message = $"You made the monkeys go hungry, you lose! ";
 
-        if (!AllBananasStolen())
+        if (!AllPrizesStolen())
         {
             int moneyEarned = _availableMoney + (_monkeysSatisfied * _monkeySatisfiedPrice);
             message = $"Congratz! You earned {moneyEarned} making happy monkeys :D";
@@ -159,8 +148,27 @@ public class GameManager : MonoBehaviour
         UIManager.Instance.UpdateMoney(_availableMoney);
     }
 
-    public bool AllBananasStolen()
+    public bool AllPrizesStolen()
     {
-        return _stolenBananas >= _availableBananas;
+        return _stolenPrize >= _availablePrize;
+    }
+
+    public void ConsumePrize(GameObject prize, GameObject monkey)
+    {
+        _stolenPrize++;
+
+        if (_stolenPrize >= _availablePrize)
+        {
+            GameOver();
+        }
+        else
+        {
+            Destroy(prize);
+            monkey.GetComponent<FollowingBehaviour>().Leave();
+            Invoke("SpawnPrize", _prizeSpawnCoolDown);
+            Invoke("NotifyTheMonkeys", _prizeSpawnCoolDown + .5f);
+            UIManager.Instance.UpdateRemainingPrizes(_availablePrize - _stolenPrize);
+        }
+        
     }
 }

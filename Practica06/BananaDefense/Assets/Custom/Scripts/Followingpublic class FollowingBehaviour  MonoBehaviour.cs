@@ -6,7 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Following : MonoBehaviour
+public class FollowingBehaviour : MonoBehaviour
 {
     [SerializeField] private Transform _leavePosition;
     [SerializeField] private GameObject _targetToFollow;
@@ -16,7 +16,10 @@ public class Following : MonoBehaviour
     void Start()
     {
         _agent = GetComponent<NavMeshAgent>();
-        _agent.destination = _targetToFollow.transform.position;
+        if (_targetToFollow)
+        {
+            _agent.destination = _targetToFollow.transform.position;
+        }
     }
 
     public void Init(GameObject target, Transform leaveArea)

@@ -20,4 +20,14 @@ public class ButtonController : MonoBehaviour
         image.color = Color.white;
     }
 
+    public void Play()
+    {
+        GameManager.Instance.StartGame();
+    }
+
+    public void Exit()
+    {
+        GameManager.Instance.ExitGame();
+    }
+
 }

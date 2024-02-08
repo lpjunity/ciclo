@@ -14,7 +14,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _timeText;
     private float _currentTime;
 
+    [SerializeField] private TextMeshProUGUI _prizeLeftText;
     [SerializeField] private GameObject _gameOverPanel;
+
+    [SerializeField] private GameObject _mainMenu;
 
     void Awake()
     {
@@ -64,5 +67,15 @@ public class UIManager : MonoBehaviour
     {
         _gameOverPanel.SetActive(true);
         _gameOverPanel.GetComponentInChildren<TextMeshProUGUI>().text = message;
+    }
+
+    public void UpdateRemainingPrizes(int prize)
+    {
+        _prizeLeftText.text = prize.ToString();
+    }
+
+    public void RemoveMainMenu()
+    {
+        _mainMenu.SetActive(false);
     }
 }
