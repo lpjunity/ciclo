@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,11 +19,13 @@ public class MarioController : MonoBehaviour
 
     private static int _walkingParameter = Animator.StringToHash("MovingOnX");
     private static int _jumpingParameter = Animator.StringToHash("IsJumping");
+    private static int _dyingParameter = Animator.StringToHash("IsDying");
     private float _direction;
     private float _maxHeight;
     [SerializeField] private float _jumpDistance;
     private bool _headbutt;
     private bool _isFalling;
+    private bool _isBigMario;
 
     private void Awake()
     {
@@ -103,9 +106,51 @@ public class MarioController : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Mushroom"))
         {
-            _animator.SetLayerWeight(1, 1f);
+            Grow();
             AudioManager.Instance.PlayMushroomPickup();
         }
+
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            if (_isFalling) {
+                //Debug.Log("EnemyKilled");
+                collision.gameObject.GetComponent<Gumba>().Die();
+            }
+            else
+            {
+                if (_isBigMario)
+                {
+                    Shrink();
+                }
+                else
+                {
+                    Die();
+                }
+                
+            }
+        }
+    }
+
+    private void Shrink()
+    {
+        _animator.SetLayerWeight(1, 0f);
+        _isBigMario = false;
+    }
+
+    private void Grow()
+    {
+        _animator.SetLayerWeight(1, 1f);
+        _isBigMario = true;
+    }
+
+    private void Die()
+    {
+        _animator.SetBool(_dyingParameter, true);
+    }
+
+    public void DestroyMyself()
+    {
+        Destroy(gameObject);
     }
 
     private void OnCollisionExit2D(Collision2D collision)
