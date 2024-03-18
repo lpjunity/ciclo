@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5621869693664043492}
   - component: {fileID: 2405388236179170945}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 945630366959617387}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.7296705, y: 0.8399999, z: -0.14398384}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -64,10 +64,20 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5621869693664043492}
     m_Modifications:
+    - target: {fileID: 2140733792043798052, guid: a94c95fe11bbf444aae2e068b964a671,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 7329776720031904400, guid: a94c95fe11bbf444aae2e068b964a671,
         type: 3}
       propertyPath: m_Name
       value: WallStump
+      objectReference: {fileID: 0}
+    - target: {fileID: 7329776720031904400, guid: a94c95fe11bbf444aae2e068b964a671,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7994814831202773034, guid: a94c95fe11bbf444aae2e068b964a671,
         type: 3}
@@ -139,10 +149,20 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5621869693664043492}
     m_Modifications:
+    - target: {fileID: 2140733792043798052, guid: a94c95fe11bbf444aae2e068b964a671,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 7329776720031904400, guid: a94c95fe11bbf444aae2e068b964a671,
         type: 3}
       propertyPath: m_Name
       value: WallStump (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7329776720031904400, guid: a94c95fe11bbf444aae2e068b964a671,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7994814831202773034, guid: a94c95fe11bbf444aae2e068b964a671,
         type: 3}
@@ -214,10 +234,20 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5621869693664043492}
     m_Modifications:
+    - target: {fileID: 2140733792043798052, guid: a94c95fe11bbf444aae2e068b964a671,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 7329776720031904400, guid: a94c95fe11bbf444aae2e068b964a671,
         type: 3}
       propertyPath: m_Name
       value: WallStump
+      objectReference: {fileID: 0}
+    - target: {fileID: 7329776720031904400, guid: a94c95fe11bbf444aae2e068b964a671,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7994814831202773034, guid: a94c95fe11bbf444aae2e068b964a671,
         type: 3}

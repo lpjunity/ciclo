@@ -16,11 +16,20 @@ public class CharacterMovement : MonoBehaviour
     private float _croachingCoef;
     private bool _croached;
 
+    [SerializeField] private Door _door;
+
+    private static int _isScared = Animator.StringToHash("isScared");
+    private LayerMask _mask;
+    [SerializeField] private Transform _targetingOrigin;
+    private bool _wasScared;
+
     // Start is called before the first frame update
     void Start()
     {
         _characterController = GetComponent<CharacterController>();
         _animatorController = GetComponent<Animator>();
+
+        _mask = LayerMask.GetMask("Enemy", "Obstacle");
     }
 
     // Update is called once per frame
@@ -29,7 +38,14 @@ public class CharacterMovement : MonoBehaviour
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 
-        if(Input.GetKeyDown(KeyCode.LeftControl)) {
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            Debug.Log("Trying to open the door");
+            _door.OpenDoor();
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
             if (_croached)
             {
                 Uncroach();
@@ -38,7 +54,7 @@ public class CharacterMovement : MonoBehaviour
             {
                 Croach();
             }
-            
+
         }
 
         if (!_isCroaching)
@@ -51,21 +67,35 @@ public class CharacterMovement : MonoBehaviour
         }
         else
         {
-            
             _croachingTime += Time.deltaTime * _croachingCoef;
 
             _animatorController.SetFloat(_croachingSpeed, _croachingTime);
-            if(_croachingTime > 1)
+            if (_croachingTime > 1)
             {
                 _croached = true;
             }
-            if(_croachingTime < 0)
+            if (_croachingTime < 0)
             {
                 _croached = false;
                 _isCroaching = false;
             }
-            
+
         }
+
+        //Enemy detection
+        RaycastHit hit;
+        if (Physics.Raycast(_targetingOrigin.position, transform.forward, out hit, 300f, _mask))
+        {
+            if (hit.collider.CompareTag("Enemy") && !_wasScared)
+            {
+                _wasScared = true;
+                _animatorController.SetTrigger(_isScared);
+            }
+            //Debug.DrawRay(_targetingOrigin.position, transform.forward * 300f, Color.red);
+            //Debug.Log(hit.collider.name);
+        }
+        //}
+
     }
 
     private void Uncroach()
@@ -81,6 +111,9 @@ public class CharacterMovement : MonoBehaviour
         _croachingCoef = 2f;
         _isCroaching = true;
     }
+
+
+
 }
 
 
