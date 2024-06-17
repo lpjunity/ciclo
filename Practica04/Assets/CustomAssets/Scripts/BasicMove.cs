@@ -59,6 +59,21 @@ public class BasicMove : MonoBehaviour
         {
             _wantsToJump = true;
         }
+
+
+        //Check if raycast hit the ground
+        RaycastHit hit;
+
+        if (Physics.Raycast(gameObject.transform.position, transform.up * -1, out hit))
+        {
+            if(hit.distance < 0.1f)
+            {
+                _isGrounded = true;
+            }
+        }
+        
+
+
     }
 
     private void FixedUpdate()
